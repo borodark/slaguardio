@@ -1,4 +1,4 @@
--module(bye_handler).
+-module(bidder_openx).
 -behaviour(cowboy_http_handler).
 
 -export([init/3]).
@@ -30,7 +30,7 @@ responde(Req, BackendRequesterPID, SLA) ->
         receive 
 	  {BackendRequesterPID,Response} ->         
 	      %% io:format("The ~p  PID responded with ~p ~n",[BackendRequesterPID,Response]),
-	      io:format("~p",[1]),
+	      io:format("~p",['x']),
 	      {200,cowboy_req:set_resp_body([Response], Req)}
       	after SLA -> 
 	      %% interupt and return zero bid if                         
@@ -39,7 +39,7 @@ responde(Req, BackendRequesterPID, SLA) ->
 	      %% Terminate the Backend requester
 	      exit(BackendRequesterPID,kill), %% posibly trap?
  	      %% show in console 
- 	      io:format("~p",[0]),
+ 	      io:format("~p",['o']),
 	      %% ZERO bid as per Google and OpenX
 	      {204, Req}
  	end.
@@ -49,6 +49,6 @@ terminate(_Reason, _Req, _State) ->
 
 send_to_backend(Parent_pid,Body,Delay) -> 
      %% Emulate long processing
-     timer:sleep(Delay), 
+     timer:sleep(Delay),
      %% io:format("PID ~p returning Real Bid to ~p after ~p ~n Body -> ~p ",[self(),Parent_pid,Delay, Body]),
      Parent_pid ! {self(),[<<"Real Bid! $5/mil!">>,Body]}.

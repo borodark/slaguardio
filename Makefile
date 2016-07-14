@@ -1,3 +1,3 @@
 PROJECT = hello_erlang
-DEPS = cowboy
+DEPS = cowboy eep
 include erlang.mk
